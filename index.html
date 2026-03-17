@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fox Engineers | Patented Forklift Towing Attachment</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            /* BRAND COLORS */
+            --color-gold: #f7d047;
+            --color-gold-soft: #FFE066;
+            --color-green: #009C3D;
+            --color-green-dark: #007A30;
+
+            /* BACKGROUNDS */
+            --color-bg-main: #0e0e0e;
+            --color-bg-secondary: #111111;
+            --color-bg-tertiary: #1a1a1a;
+
+            /* TEXT */
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #bdbdbd;
+
+            /* ACCENTS */
+            --color-accent: var(--color-green);
+
+            --section-spacing: 120px;
+            --transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --easing-smooth: cubic-bezier(0.165, 0.84, 0.44, 1); 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-main);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-weight: 700;
+            color: var(--color-text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 24px; }
+        h2 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        p { color: var(--color-text-secondary); margin-bottom: 1.5rem; font-size: 1.05rem; }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+        
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        section {
+            padding: var(--section-spacing) 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--color-green);
+            margin-bottom: 20px;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        /* --- ANIMATION STYLES (From Reference) --- */
+        
+        /* 1. Ventriloc Text (Word Split) */
+        .word-wrapper {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: bottom;
+            margin-right: 0.25em;
+            padding-bottom: 0.1em;
+        }
+        .word-inner {
+            display: inline-block;
+            transform: translateY(110%); /* Start hidden below */
+            transition: transform 1s var(--easing-smooth), opacity 1s var(--easing-smooth);
+            opacity: 0;
+        }
+        .word-inner.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* 2. Ellipsus (Hero Image Curtain) */
+        .hero-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.2); /* Zoom effect start */
+            transition: transform 1.8s var(--easing-smooth);
+        }
+        
+        .hero-image-wrapper.active .hero-img { transform: scale(1); }
+
+        .curtain {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: var(--color-green);
+            z-index: 5;
+            transform: translateX(0);
+            transition: transform 1.2s var(--easing-smooth) 0.2s; 
+        }
+        
+        .hero-image-wrapper.active .curtain {
+            transform: translateX(101%); /* Slide away */
+        }
+
+        /* 3. Lusion Cards (Popup Effect) */
+        .lusion-card {
+            background: var(--color-bg-secondary);
+            padding: 40px 30px;
+            text-align: left;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            
+            /* Animation Init State */
+            opacity: 0;
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.8s var(--easing-smooth);
+        }
+
+        .lusion-card:hover {
+            border-color: var(--color-green-dark);
+            /* Hover transform handled by transition, but we need to ensure it doesn't conflict with active state too much. 
+               The base hover was translateY(-5px). We can keep that if active. */
+        }
+        
+        .lusion-card.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .lusion-card.active:hover {
+            transform: translateY(-5px);
+        }
+
+        .lusion-card i {
+            font-size: 2rem;
+            color: var(--color-green);
+            margin-bottom: 25px;
+            display: block;
+        }
+        .lusion-card h3 { margin-bottom: 15px; font-size: 1.3rem; }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 36px;
+            background-color: var(--color-green);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            border: 1px solid var(--color-green);
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 4px;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--color-green-dark);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #000;
+            color: #000;
+        }
+        .btn-outline:hover { 
+            background: #000;
+            color: #fff; 
+        }
+
+        /* --- NAVIGATION --- border-bottom: 1px solid rgba(0,0,0,0.1); */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: var(--color-gold);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px; 
+            width: auto;
+        }
+
+        .nav-links { display: flex; gap: 35px; }
+        .nav-links a { font-size: 0.95rem; font-weight: 500; opacity: 0.7; position: relative; color: var(--color-bg-main); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px;
+            background: var(--color-green); transition: 0.3s ease;
+        }
+        .nav-links a:hover { opacity: 1; color: var(--color-text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- HERO SECTION --- */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            position: relative;
+            overflow: hidden;
+            background: var(--color-gold);
+            color: #000;
+        }
+
+        #home h1,
+        #home p {
+            color: #000;
+        }
+
+        #home .section-label {
+            color: var(--color-green);
+        }
+
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content { z-index: 2; }
+        .hero-subtext { font-size: 1.25rem; margin-bottom: 40px; max-width: 500px; }
+        .btn-group { display: flex; gap: 20px; }
+
+        /* --- PARTNERS MARQUEE --- */
+        #partners {
+            padding: 60px 0;
+            background: var(--color-bg-secondary);
+            overflow: hidden;
+        }
+        .partners-header { text-align: center; margin-bottom: 40px; }
+        
+        .marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .marquee-track {
+            display: inline-flex;
+            gap: 80px;
+            animation: marquee-scroll 30s linear infinite;
+        }
+
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .partner-logo {
+            font-size: 2.5rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .partner-logo:hover { color: var(--color-text-primary); }
+        .partner-logo span { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
+
+        /* --- ABOUT SECTION --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: flex-start;
+        }
+        .about-text h2 { font-size: 3rem; }
+        
+        .info-card {
+            background: var(--color-bg-secondary);
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 25px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .info-card h4 { display: flex; align-items: center; gap: 10px; font-size: 1.2rem; margin-bottom: 15px; }
+        .info-card i { color: var(--color-green); }
+        
+        /* Note: info-card is often combined with lusion-card in HTML, so lusion-card styles apply */
+
+        /* --- PRODUCT SECTION --- */
+        .product-header { text-align: center; max-width: 800px; margin: 0 auto 80px auto; }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 100px;
+        }
+
+        /* Video Area */
+        .video-placeholder {
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        .play-btn-inner {
+            width: 90px; height: 90px;
+            background: var(--color-green-dark);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            animation: pulse 2s infinite;
+        }
+        .play-btn-inner:hover { transform: scale(1.1); background: #fff; }
+        .play-btn-inner:hover .play-arrow { border-left-color: var(--color-green); }
+        .play-arrow {
+            width: 0; height: 0; 
+            border-top: 12px solid transparent; border-bottom: 12px solid transparent;
+            border-left: 20px solid white; margin-left: 5px;
+            transition: var(--transition);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 var(--color-green); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 85, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 85, 0, 0); }
+        }
+
+        /* --- GALLERY SECTION --- */
+        #gallery { background: var(--color-bg-secondary); }
+        .gallery-header { text-align: center; margin-bottom: 60px; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .gallery-item {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.05); }
+        
+        .overlay-icon {
+            position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 2rem; color: #fff; opacity: 0; transition: 0.3s;
+            z-index: 2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .gallery-item:hover .overlay-icon { opacity: 1; }
+
+        /* --- CTA BANNER --- */
+        #cta-banner {
+            padding: 80px 0;
+            background: linear-gradient(90deg, var(--color-gold) 0%, var(--color-green) 100%);
+            text-align: center;
+        }
+        #cta-banner h2 { color: #fff; margin-bottom: 20px; font-size: 2.5rem; }
+        #cta-banner p { color: rgba(255,255,255,0.9); margin-bottom: 30px; font-size: 1.2rem; }
+        #cta-banner .btn {
+            background: #fff; color: var(--color-green); border-color: #fff;
+        }
+        #cta-banner .btn:hover { background: #000; color: #fff; border-color: #000; }
+
+        /* --- CONTACT SECTION (Base content kept) --- */
+        #contact { padding-bottom: 0; }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-bottom: 80px;
+        }
+        
+        .contact-item { margin-bottom: 30px; display: flex; gap: 20px; }
+        .contact-icon-box {
+            width: 50px; height: 50px; background: rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 4px; color: var(--color-green); font-size: 1.2rem;
+        }
+        .contact-text strong { display: block; color: #fff; margin-bottom: 5px; font-size: 1.1rem; }
+
+        /* Full Width Map Styles (Preserved from Base) */
+        .full-width-map {
+            width: 100%;
+            height: 450px;
+            background: #222;
+            filter: grayscale(100%) invert(92%) contrast(83%);
+            line-height: 0;
+        }
+        .full-width-map iframe { width: 100%; height: 100%; border: none; }
+        
+        /* Request Quote Form */
+        .form-box {
+            background: var(--color-bg-secondary);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .form-group { margin-bottom: 20px; position: relative; }
+        .form-group i {
+            position: absolute; left: 20px; top: 18px; color: #666;
+        }
+        
+        input, textarea {
+            width: 100%;
+            background: var(--color-bg-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 16px 16px 50px; /* Space for icon */
+            font-family: 'Inter', sans-serif;
+            color: var(--color-text-primary);
+            font-size: 16px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--color-green);
+            background: #111;
+        }
+
+
+        /* --- VIDEO PLAYER STATES --- */
+        .video-placeholder.is-playing {
+            background: none; /* Removes the background image */
+        }
+
+        .video-placeholder.is-playing .play-btn-inner {
+            display: none; /* Hides the play button */
+        }
+
+        /* CHANGE: iframe to video */
+        .video-placeholder.is-playing video {
+            display: block !important; /* Reveals the video */
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #000;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer-links {
+            display: flex; justify-content: center; gap: 40px; margin-bottom: 40px; flex-wrap: wrap;
+        }
+        .footer-links a { font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; }
+        .footer-socials { margin-bottom: 30px; }
+        .footer-socials a { color: #666; font-size: 1.5rem; margin: 0 15px; transition: 0.3s; }
+        .footer-socials a:hover { color: var(--color-green); }
+        .copyright { font-size: 0.85rem; opacity: 0.5; }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 1024px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.2rem; }
+            .feature-grid, .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-layout { gap: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            :root { --section-spacing: 70px; }
+            
+            /* Nav */
+            .nav-links { display: none; } 
+            header { padding: 15px 0; }
+            
+            /* Layouts */
+            .hero-layout, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            
+            /* Typography */
+            h1 { font-size: 2.5rem; }
+            .hero-image-wrapper { height: 350px; order: -1; }
+            
+            .curtain { background-color: var(--color-gold); transition-duration: 0.8s; }
+            
+            /* Form */
+            .form-box { padding: 25px; }
+            
+            /* Map */
+            .full-width-map { height: 300px; }
+        }
+        /* light box image viewer */
+        #prev-btn:hover, #next-btn:hover, #close-lightbox:hover {
+            opacity: 1 !important;
+            color: var(--color-green);
+        }
+
+        .gallery-item {
+            cursor: zoom-in; /* Change cursor to show it's clickable */
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <a href="#home">
+                        <img src="1773771325443.png" alt="Fox Engineers Logo">
+                    </a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#product">Product</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <a href="#contact" class="btn" style="padding: 10px 24px;">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> Get Quote
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home">
+        <div class="container">
+            <div class="hero-layout">
+                <div class="hero-content">
+                    <span class="section-label ventriloc-anim">Patented Technology</span>
+                    <h1 class="ventriloc-anim">Forklift Towing Attachment</h1>
+                    <p class="hero-subtext ventriloc-anim">
+                        Engineered for safe, efficient, and reliable handling operations. The glowing standard for industrial towing solutions.
+                    </p>
+                    <div class="btn-group ventriloc-anim">
+                        <a href="#product" class="btn">
+                            View Product <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#about" class="btn btn-outline">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-image-wrapper ellipsus-anim">
+                    <div class="curtain"></div>
+                    <img src="image_hero.png" alt="Industrial Forklift" class="hero-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="partners">
+        <div class="container">
+            <div class="partners-header">
+                <span class="section-label">Trusted By Industry Leaders</span>
+            </div>
+        </div>
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <div class="partner-logo"><i class="fa-brands fa-aws"></i> <span>Amazon</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-google"></i> <span>Google</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-dhl"></i> <span>DHL Supply</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-fedex"></i> <span>FedEx</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-ups"></i> <span>UPS Logistics</span></div>
+                <div class="partner-logo"><i class="fa-solid fa-warehouse"></i> <span>Maersk</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-apple"></i> <span>Apple Mfg</span></div>
+                <div class="partner-logo"><i class="fa-solid fa-truck-fast"></i> <span>Toll Group</span></div>
+                <div class="partner-logo"><i class="fa-solid fa-industry"></i> <span>Toyota</span></div>
+                <div class="partner-logo"><i class="fa-solid fa-ship"></i> <span>DP World</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-aws"></i> <span>Amazon</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-google"></i> <span>Google</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-dhl"></i> <span>DHL Supply</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-fedex"></i> <span>FedEx</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-ups"></i> <span>UPS Logistics</span></div>
+                <div class="partner-logo"><i class="fa-solid fa-warehouse"></i> <span>Maersk</span></div>
+                <div class="partner-logo"><i class="fa-brands fa-apple"></i> <span>Apple Mfg</span></div>
+                <div class="partner-logo"><i class="fa-solid fa-truck-fast"></i> <span>Toll Group</span></div>
+                <div class="partner-logo"><i class="fa-solid fa-industry"></i> <span>Toyota</span></div>
+                <div class="partner-logo"><i class="fa-solid fa-ship"></i> <span>DP World</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <span class="section-label">About Us</span>
+                    <h2 class="ventriloc-text-target">Engineering practical handling solutions for modern industry.</h2>
+                    <br>
+                    <p class="ventriloc-anim">We are an Australian manufacturer specializing in forklift attachments designed for safe and efficient handling of trailers, campers, and vehicles.</p>
+                    <p class="ventriloc-anim">Our solutions are engineered to simplify material handling challenges across manufacturing facilities, logistics yards, and storage environments.</p>
+                </div>
+                <div class="about-cards">
+                    <div class="info-card lusion-card">
+                        <h4><i class="fa-solid fa-compass-drafting"></i> Our Approach</h4>
+                        <p>Practical engineering—designing robust, reliable products that integrate seamlessly into existing operations.</p>
+                    </div>
+                    <div class="info-card lusion-card" style="transition-delay: 0.1s;">
+                        <h4><i class="fa-solid fa-shield-halved"></i> Safety & Durability</h4>
+                        <p>Developed with a strong focus on safety compliance and built to withstand daily industrial use.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="product">
+        <div class="container">
+            <div class="product-header">
+                <span class="section-label">The Solution</span>
+                <h2 class="ventriloc-text-target">Heavy-Duty Trailer Handling</h2>
+                <p>Safely lift, maneuver, and position trailers with precision using standard forklifts.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="lusion-card">
+                    <i class="fa-solid fa-puzzle-piece"></i>
+                    <h3>Compatibility</h3>
+                    <p>Fits standard forklift tynes seamlessly with universal locking mechanisms.</p>
+                </div>
+                <div class="lusion-card" style="transition-delay: 0.1s;">
+                    <i class="fa-solid fa-weight-hanging"></i>
+                    <h3>High Capacity</h3>
+                    <p>Engineered for heavy loads up to 5000kg with certified stress testing.</p>
+                </div>
+                <div class="lusion-card" style="transition-delay: 0.2s;">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <h3>Aus Standards</h3>
+                    <p>Manufactured to strict Australian safety standards (AS 2359.1).</p>
+                </div>
+                <div class="lusion-card" style="transition-delay: 0.3s;">
+                    <i class="fa-solid fa-certificate"></i>
+                    <h3>Patented Design</h3>
+                    <p>Unique technology provides superior maneuverability and stability.</p>
+                </div>
+            </div>
+
+            <div class="lusion-card" style="width: 100%;">
+                <div class="video-section-header" style="text-align: center; margin-bottom: 20px;">
+                    <span class="section-label">See it in action</span>
+                    <h3>Operational Demonstration</h3>
+                </div>
+                <div class="video-placeholder" id="videoContainer">
+                    <div class="play-btn-inner" id="playBtn">
+                        <div class="play-arrow"></div>
+                    </div>
+                    <video id="localVideo" width="100%" height="100%" controls style="display: none; border-radius: 12px;">
+                        <source src="Demo_Video.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div class="container">
+            <div class="gallery-header">
+                <span class="section-label">Visuals</span>
+                <h2>Product Gallery</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="image_1.png" alt="Forklift attachment in warehouse">
+                    <div class="overlay-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+                <div class="gallery-item" style="transition-delay: 0.1s;">
+                    <img src="image_2.png" alt="Component diagram">
+                    <div class="overlay-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+                <div class="gallery-item" style="transition-delay: 0.2s;">
+                    <img src="image_4.png" alt="Front view">
+                    <div class="overlay-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+                <div class="gallery-item" style="transition-delay: 0.3s;">
+                    <img src="image_5.png" alt="Top down view">
+                    <div class="overlay-icon"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta-banner">
+        <div class="container">
+            <h2>Ready to optimize your fleet?</h2>
+            <p>Get a detailed quotation tailored to your operational requirements today.</p>
+            <a href="#contact" class="btn">Get Quotation Now</a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <span class="section-label">Get in Touch</span>
+                    <h2>Enquire Today</h2>
+                    <p style="margin-bottom: 40px;">Contact our engineering team for technical specs or pricing.</p>
+                    
+                    <div class="contact-details-block">
+                        <div class="contact-item">
+                            <div class="contact-icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="contact-text">
+                                <strong>Head Office</strong>
+                                <p>Federation Square, Melbourne VIC 3000, Australia</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon-box"><i class="fa-solid fa-phone"></i></div>
+                            <div class="contact-text">
+                                <strong>Phone</strong>
+                                <p>(03) 9655 1900</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon-box"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="contact-text">
+                                <strong>Email</strong>
+                                <p>info@foxengineers.com.au</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="contact-form-block">
+                    <div class="form-box">
+                        <h3 style="margin-bottom: 25px;">Request a Quotation</h3>
+                        <form>
+                            <div class="form-group">
+                                <i class="fa-solid fa-user"></i>
+                                <input type="text" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <i class="fa-solid fa-building"></i>
+                                <input type="text" placeholder="Company Name" required>
+                            </div>
+                            <div class="form-group">
+                                <i class="fa-solid fa-envelope"></i>
+                                <input type="email" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <i class="fa-solid fa-phone"></i>
+                                <input type="tel" placeholder="Phone Number" required>
+                            </div>
+                            <div class="form-group">
+                                <i class="fa-solid fa-message"></i>
+                                <textarea rows="5" placeholder="Details about your forklift model and requirements..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn" style="width: 100%;">
+                                Submit Enquiry <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="full-width-map">
+            <iframe src="https://maps.google.com/maps?q=Federation%20Square%2C%20Melbourne&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#partners">Partners</a>
+                <a href="#product">Product</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-socials">
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+            <div class="copyright">
+                <p>© 2024 Fox Engineers Australia. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="lightbox" style="display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); align-items: center; justify-content: center;">
+        <span id="close-lightbox" style="position: absolute; top: 30px; right: 40px; color: white; font-size: 40px; cursor: pointer; opacity: 0.7;">&times;</span>
+        <button id="prev-btn" style="position: absolute; left: 30px; background: none; border: none; color: white; font-size: 3rem; cursor: pointer; opacity: 0.5;"><i class="fa-solid fa-chevron-left"></i></button>
+        <img id="lightbox-img" src="" style="max-width: 85%; max-height: 80%; border-radius: 8px; box-shadow: 0 0 50px rgba(0,0,0,0.5); transform: scale(0.9); transition: transform 0.3s var(--easing-smooth);">
+        <button id="next-btn" style="position: absolute; right: 30px; background: none; border: none; color: white; font-size: 3rem; cursor: pointer; opacity: 0.5;"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // --- 1. Ventriloc Text Splitter ---
+            const textTargets = document.querySelectorAll('.ventriloc-text-target');
+            
+            textTargets.forEach(el => {
+                const text = el.innerText;
+                const words = text.split(' ');
+                el.innerHTML = ''; // Clear text
+                
+                words.forEach(word => {
+                    // Create wrapper structure
+                    const wrapper = document.createElement('span');
+                    wrapper.className = 'word-wrapper';
+                    
+                    const inner = document.createElement('span');
+                    inner.className = 'word-inner';
+                    inner.innerText = word + ' '; // Add space
+                    
+                    wrapper.appendChild(inner);
+                    el.appendChild(wrapper);
+                });
+            });
+
+            // --- 2. Intersection Observer for All Animations ---
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        
+                        // Lusion Cards Scale Effect
+                        if (entry.target.classList.contains('lusion-card')) {
+                            entry.target.classList.add('active');
+                        }
+
+                        // Ellipsus Image Curtain Effect
+                        if (entry.target.classList.contains('ellipsus-anim')) {
+                            entry.target.classList.add('active');
+                        }
+
+                        // Ventriloc Word Slide Effect (Targeting the wrapper's inner span)
+                        if (entry.target.classList.contains('ventriloc-text-target')) {
+                            const words = entry.target.querySelectorAll('.word-inner');
+                            words.forEach((word, index) => {
+                                setTimeout(() => {
+                                    word.classList.add('active');
+                                }, index * 50); // Stagger delay
+                            });
+                        }
+                        
+                        // Standard Fade Up (for paragraphs/buttons)
+                        if (entry.target.classList.contains('ventriloc-anim')) {
+                            // Reusing the word-inner logic for simple fade up by adding inline style or class
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                            entry.target.style.transition = 'all 0.8s ease-out';
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe Elements
+            document.querySelectorAll('.lusion-card').forEach(el => observer.observe(el));
+            document.querySelectorAll('.ellipsus-anim').forEach(el => observer.observe(el));
+            document.querySelectorAll('.ventriloc-text-target').forEach(el => observer.observe(el));
+            
+            // For simple elements (paragraphs/buttons) to fade in
+            document.querySelectorAll('.ventriloc-anim').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                observer.observe(el);
+            });
+
+            // For Video player
+            const playBtn = document.querySelector("#playBtn");
+            const videoContainer = document.querySelector("#videoContainer");
+            const localVideo = document.querySelector("#localVideo");
+
+            if (playBtn) {
+                playBtn.addEventListener("click", () => {
+                    // 1. Show the video (assuming your CSS handles the 'is-playing' class)
+                    videoContainer.classList.add("is-playing");
+                    
+                    // 2. Unhide the video element itself if needed
+                    localVideo.style.display = "block"; 
+                    
+                    // 3. Play the video
+                    localVideo.play();
+                    
+                    // Optional: Hide the play button after clicking
+                    playBtn.style.display = "none"; 
+                });
+            }
+
+            //for lightbox image viewer
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.getElementById('close-lightbox');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item img');
+
+            let currentIndex = 0;
+
+            // Open Lightbox
+            galleryItems.forEach((img, index) => {
+                img.parentElement.addEventListener('click', () => {
+                    lightbox.style.display = 'flex';
+                    lightboxImg.src = img.src;
+                    currentIndex = index;
+                    // Small delay to trigger a "pop-in" scale effect
+                    setTimeout(() => { lightboxImg.style.transform = 'scale(1)'; }, 10);
+                });
+            });
+
+            // Close Lightbox
+            const closeLightbox = () => {
+                lightboxImg.style.transform = 'scale(0.9)';
+                setTimeout(() => { lightbox.style.display = 'none'; }, 200);
+            };
+
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+
+            // Navigation Logic
+            const showImage = (index) => {
+                if (index >= galleryItems.length) currentIndex = 0;
+                else if (index < 0) currentIndex = galleryItems.length - 1;
+                else currentIndex = index;
+                
+                lightboxImg.src = galleryItems[currentIndex].src;
+            };
+
+            nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex + 1); });
+            prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showImage(currentIndex - 1); });
+
+            // Keyboard Support (Esc to close, Arrows to navigate)
+            document.addEventListener('keydown', (e) => {
+                if (lightbox.style.display === 'flex') {
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+                    if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
