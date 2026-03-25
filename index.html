@@ -591,6 +591,19 @@
             color: var(--color-green);
         }
 
+        #prev-btn, #next-btn {
+            z-index: 2100;   /* ensure above everything */
+            padding: 10px;   /* better touch area */
+        }
+
+        #prev-btn {
+            left: 10px;   /* was 30px → too far */
+        }
+
+        #next-btn {
+            right: 10px;
+        }
+
         .gallery-item {
             cursor: zoom-in; /* Change cursor to show it's clickable */
         }
